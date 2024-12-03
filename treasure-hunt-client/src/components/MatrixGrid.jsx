@@ -4,6 +4,7 @@ import { Button, TextField } from "@mui/material"
 
 const Cell = memo(({ rowIndex, columnIndex, style, value, onChange }) => {
   const [initialValue, setInitialValue] = useState(value)
+  console.log("render")
   return (
     <div style={style} className="p-1">
       <input
@@ -27,7 +28,7 @@ const Cell = memo(({ rowIndex, columnIndex, style, value, onChange }) => {
       />
     </div>
   );
-}, areEqual);
+}, (prev, nex) => true);
 
 const HeaderCell = memo(({ style, value }) => {
   return (
@@ -144,7 +145,7 @@ export const MatrixGrid = memo(({ column = 3, row = 3, p = 9, onNext }) => {
                   rowIndex={rowIndex}
                   columnIndex={columnIndex}
                   style={style}
-                  value={""}
+                  value={matrix[rowIndex][columnIndex]}
                   onChange={updateMatrix}
                 />
               )}
