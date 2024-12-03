@@ -7,20 +7,27 @@ const Cell = memo(({ rowIndex, columnIndex, style, value, onChange }) => {
   return (
     <div style={style} className="p-1">
       <input
+        id={`cell-${rowIndex}-${columnIndex}`}
+        name={`cell-${rowIndex}-${columnIndex}`}
         type="number"
         value={initialValue ?? ""}
         onChange={(e) => {
-          setInitialValue(e.target.value)
-          onChange(e.target.value)
+          console.log(e.target.value)
+          const num = Number(e.target.value);
+          if (!Number.isNaN(num)) {
+            setInitialValue(num)
+            onChange(rowIndex, columnIndex,num)
+          }
+          // onChange(rowIndex, columnIndex, e.target.value)
         }}
-        // onFocus={(e) => e.target.select()}
-        className="w-full h-full border border-gray-300 text-center focus:outline-none focus:border-blue-500"
+        onFocus={(e) => e.target.select()}
+        className="w-full h-full border border-gray-300 text-center focus:outline-none focus:border-blue-600 text-xs rounded"
         min={1}
         max={500}
       />
     </div>
   );
-});
+}, areEqual);
 
 const HeaderCell = memo(({ style, value }) => {
   return (
@@ -30,8 +37,9 @@ const HeaderCell = memo(({ style, value }) => {
   );
 });
 
-export const MatrixGrid = ({ column = 3, row = 3, p = 9, onNext }) => {
-  const CELL_SIZE = 56;
+export const MatrixGrid = memo(({ column = 3, row = 3, p = 9, onNext }) => {
+  console.log("Render Matrix Grid")
+  const CELL_SIZE = 50;
   const GRID_SIZE = column;
   const SCROLLBAR_SIZE = 17;
   const HEADER_SIZE = CELL_SIZE;
@@ -50,7 +58,7 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, onNext }) => {
     return true
   }, []);
 
-  const updateMatrix = useCallback((row, col, value) => {
+  const updateMatrix = (row, col, value) => {
     if (validateInput(value)) {
       setMatrix(prev => {
         const newMatrix = [...prev];
@@ -59,11 +67,7 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, onNext }) => {
         return newMatrix;
       });
     }
-  }, [validateInput]);
-
-  const handleChange = useCallback((row, col) => (value) => {
-    updateMatrix(row, col, value);
-  }, [updateMatrix]);
+  };
 
   const onScroll = useCallback(({ scrollLeft, scrollTop }) => {
     if (columnHeaderRef.current) {
@@ -140,8 +144,8 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, onNext }) => {
                   rowIndex={rowIndex}
                   columnIndex={columnIndex}
                   style={style}
-                  value={matrix[rowIndex][columnIndex]}
-                  onChange={handleChange(rowIndex, columnIndex)}
+                  value={""}
+                  onChange={updateMatrix}
                 />
               )}
             </FixedSizeGrid>
@@ -172,4 +176,4 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, onNext }) => {
       </div>
     </div>
   );
-}; 
+}); 

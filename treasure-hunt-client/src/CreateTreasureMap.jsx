@@ -87,7 +87,7 @@ function CreateTreasureMap() {
     return (
         <div className='w-full max-w-5xl mx-auto h-dvh p-4 space-y-4'>
             <h1 className='text-black text-xl font-black'>Giải bản đồ</h1>
-            <div className="space-y-6 border p-4">
+            <div className="space-y-6">
                 <Stepper activeStep={activeStep}>
                     {steps.map((label, index) => {
                         const stepProps = {};
