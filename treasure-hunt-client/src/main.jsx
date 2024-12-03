@@ -6,9 +6,14 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import './index.css'
 import App from './App.jsx'
+import { BrowserRouter, Routes, Route } from "react-router";
+import CreateTreasureMap from './CreateTreasureMap';
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/treasure-hunt" element={<CreateTreasureMap />} />
+    </Routes>
+  </BrowserRouter>,
 )

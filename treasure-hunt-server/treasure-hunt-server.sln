@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreasureHunt.Api", "TreasureHunt.Api\TreasureHunt.Api.csproj", "{5F1C233A-D05F-4C6A-BB79-31A3C17F973F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F1C233A-D05F-4C6A-BB79-31A3C17F973F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1C233A-D05F-4C6A-BB79-31A3C17F973F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1C233A-D05F-4C6A-BB79-31A3C17F973F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1C233A-D05F-4C6A-BB79-31A3C17F973F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CD62AD5-5993-4842-9CBB-5D08B37E94A6}
+	EndGlobalSection
+EndGlobal

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TreasureHunt.Core
+namespace TreasureHunt.Api.Core
 {
     public class Graph<TNode> where TNode : Node
     {
@@ -89,6 +89,27 @@ namespace TreasureHunt.Core
             path.Reverse();
             Console.WriteLine($"Shortest path: {string.Join(" -> ", path)}");
             Console.WriteLine($"Total distance: {endNode.Distance}");
+        }
+
+        // In đường đi ngắn nhất đến một node
+        public (double, string) GetShortestPath(string endNodeName)
+        {
+            if (!nodes.ContainsKey(endNodeName))
+                throw new ArgumentException("End node not found in graph");
+
+            var endNode = nodes[endNodeName];
+            var path = new List<string>();
+            var current = endNode;
+
+            while (current != null)
+            {
+                path.Add(current.Name);
+                current = (TNode)current?.Previous;
+            }
+            path.Reverse();
+            return (endNode.Distance, string.Join(" -> ", path));
+            //Console.WriteLine($"Shortest path: {string.Join(" -> ", path)}");
+            //Console.WriteLine($"Total distance: {endNode.Distance}");
         }
     }
 }

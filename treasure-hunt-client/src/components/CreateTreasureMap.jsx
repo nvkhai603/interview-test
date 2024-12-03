@@ -8,9 +8,17 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import { Alert } from '@mui/material';
 import { MatrixGrid } from './MatrixGrid';
+import { CreateTreasureMapStep1 } from './CreateTreasureMapStep1';
+import {useState} from "react"
 
-const steps = ['Cấu trúc bản đồ', 'Chi tiết bản đồ', 'Create an ad'];
+const steps = ['Cấu trúc bản đồ', 'Chi tiết bản đồ', 'Kết quả giải bản đồ'];
 export const CreateTreasureMap = () => {
+
+    const [matrixInput, setMatrixInput] = useState({
+        n: "",
+        m: "",
+        p: ""
+    })
     const [activeStep, setActiveStep] = React.useState(0);
     const [skipped, setSkipped] = React.useState(new Set());
 
@@ -56,6 +64,25 @@ export const CreateTreasureMap = () => {
         setActiveStep(0);
     };
 
+    const onSubmit = (input) => {
+        console.log(input)
+    }
+
+    const renderActiveStepContent = () => {
+        if (activeStep == 0) {
+            return <CreateTreasureMapStep1 onNext={(values) => {
+                setMatrixInput(values);
+                setActiveStep(1);
+            }} />
+        } else if (activeStep == 1) {
+            return <MatrixGrid column={matrixInput.m} row={matrixInput.n} p={matrixInput.p} onNext={(matrixMap) => {
+                let i = {...matrixInput, matrixMap: matrixMap};
+                setMatrixInput(i)
+                onSubmit(i)
+            }} />
+        }
+    }
+
     return (
         <Box padding={4} sx={{ width: '100%' }}>
             <Stepper activeStep={activeStep}>
@@ -87,42 +114,9 @@ export const CreateTreasureMap = () => {
                         <Button onClick={handleReset}>Reset</Button>
                     </Box>
                 </React.Fragment>
-                
-            ) : (
-                // <React.Fragment>
-                //     <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-                //     <Alert color="info">
-                //         <strong>m</strong> là số hàng <br />
-                //         <strong>n</strong> là số cột <br />
-                //         <strong>p</strong> là số loại rương có thể có trên ma trận
-                //     </Alert>
-                //     <div className='space-x-4'>
-                //     <TextField size='small' id="outlined-basic" label="n" variant="outlined" />
-                //     <TextField size='small' id="outlined-basic" label="m" variant="outlined" />
-                //     <TextField size='small' id="outlined-basic" label="p" variant="outlined" />
-                //     </div>
-                //     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                //         <Button
-                //             color="inherit"
-                //             disabled={activeStep === 0}
-                //             onClick={handleBack}
-                //             sx={{ mr: 1 }}
-                //         >
-                //             Back
-                //         </Button>
-                //         <Box sx={{ flex: '1 1 auto' }} />
-                //         {isStepOptional(activeStep) && (
-                //             <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                //                 Skip
-                //             </Button>
-                //         )}
-                //         <Button onClick={handleNext}>
-                //             {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                //         </Button>
-                //     </Box>
-                // </React.Fragment>
 
-                <div className='flex justify-center'><MatrixGrid/></div>
+            ) : (
+                renderActiveStepContent()
             )}
         </Box>
     );
