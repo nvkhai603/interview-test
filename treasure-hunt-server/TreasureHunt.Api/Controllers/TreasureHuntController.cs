@@ -23,9 +23,9 @@ namespace TreasureHunt.Api.Controllers
         }
 
         [HttpGet("log")]
-        public async Task<IActionResult> GetLog()
+        public async Task<IActionResult> GetLog([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string search = "", [FromQuery] string sortBy = "date", [FromQuery] bool ascending = true)
         {
-            var result = await _treasureHuntService.GetLogs();
+            var result = await _treasureHuntService.GetLogs(page, pageSize, search, sortBy, ascending);
             return Ok(result);
         }
     }

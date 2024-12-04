@@ -104,10 +104,22 @@ namespace TreasureHunt.Api.Services
             };
         }
 
-        public async Task<IEnumerable<TreasureHuntLog>> GetLogs()
+        public async Task<(IEnumerable<TreasureHuntLog> logs, int totalCount)> GetLogs(int page, int pageSize, string search, string sortBy, bool ascending)
         {
-            var logs = await _dbContext.TreasureHuntLog.OrderByDescending(x => x.CreatedDate).Skip(0).Take(20).ToListAsync();
-            return logs;
+            // Tính tổng số bản ghi
+            var totalCount = await _dbContext.TreasureHuntLog
+                .Where(log => log.Description.Contains(search))
+                .CountAsync();
+
+            // Lấy danh sách bản ghi với phân trang
+            var logs = await _dbContext.TreasureHuntLog
+                .Where(log => log.Description.Contains(search))
+                .OrderBy(ascending ? sortBy : $"{sortBy} descending")
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (logs, totalCount);
         }
     }
 }
