@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLitePCL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,11 @@ namespace TreasureHunt.Api.Core
         {
             this.x = x;
             this.y = y;
+        }
+
+        public int[] GetPoint()
+        {
+            return new[] { x + 1, y + 1 }; 
         }
     }
 }

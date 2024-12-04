@@ -39,7 +39,6 @@ const HeaderCell = memo(({ style, value }) => {
 });
 
 export const MatrixGrid = memo(({ column = 3, row = 3, p = 9, onNext }) => {
-  console.log("Render Matrix Grid")
   const CELL_SIZE = 50;
   const GRID_SIZE = column;
   const SCROLLBAR_SIZE = 17;
@@ -51,6 +50,9 @@ export const MatrixGrid = memo(({ column = 3, row = 3, p = 9, onNext }) => {
 
   const columnHeaderRef = useRef(null);
   const rowHeaderRef = useRef(null);
+  useEffect(() => {
+    console.log("Render Matrix Grid")
+  }, [])
 
   const validateInput = useCallback((value) => {
     // if (value === '') return true;
@@ -177,4 +179,4 @@ export const MatrixGrid = memo(({ column = 3, row = 3, p = 9, onNext }) => {
       </div>
     </div>
   );
-}); 
+}, (prev, nex) => true); 

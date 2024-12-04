@@ -20,6 +20,7 @@ export const CreateTreasureMap = () => {
         p: ""
     })
     const [activeStep, setActiveStep] = React.useState(0);
+    const [result, setResult] = useState(null)
     const [skipped, setSkipped] = React.useState(new Set());
 
     const isStepOptional = (step) => {
@@ -64,8 +65,9 @@ export const CreateTreasureMap = () => {
         setActiveStep(0);
     };
 
-    const onSubmit = (input) => {
-        console.log(input)
+    const showResult = (data) => {
+        setResult(data);
+        setActiveStep(2);
     }
 
     const renderActiveStepContent = () => {
@@ -75,11 +77,7 @@ export const CreateTreasureMap = () => {
                 setActiveStep(1);
             }} />
         } else if (activeStep == 1) {
-            return <MatrixGrid column={matrixInput.m} row={matrixInput.n} p={matrixInput.p} onNext={(matrixMap) => {
-                let i = {...matrixInput, matrixMap: matrixMap};
-                setMatrixInput(i)
-                onSubmit(i)
-            }} />
+            return <MatrixGrid column={matrixInput.m} row={matrixInput.n} p={matrixInput.p} onNext={showResult} />
         }
     }
 

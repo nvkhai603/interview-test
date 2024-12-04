@@ -19,7 +19,11 @@ namespace TreasureHunt.Api.Core
 
         public void AddNode(TNode node)
         {
+            var exist = nodes.TryGetValue(node.Name, out TNode existNode);
+            if (!exist)
+            {
             nodes.Add(node.Name, node);
+            }
         }
 
         // Thêm cạnh mới vào đồ thị
@@ -92,22 +96,22 @@ namespace TreasureHunt.Api.Core
         }
 
         // In đường đi ngắn nhất đến một node
-        public (double, string) GetShortestPath(string endNodeName)
+        public (double, List<TNode>) GetShortestPath(string endNodeName)
         {
             if (!nodes.ContainsKey(endNodeName))
                 throw new ArgumentException("End node not found in graph");
 
             var endNode = nodes[endNodeName];
-            var path = new List<string>();
+            var path = new List<TNode>();
             var current = endNode;
 
             while (current != null)
             {
-                path.Add(current.Name);
+                path.Add(current);
                 current = (TNode)current?.Previous;
             }
             path.Reverse();
-            return (endNode.Distance, string.Join(" -> ", path));
+            return (endNode.Distance, path);
             //Console.WriteLine($"Shortest path: {string.Join(" -> ", path)}");
             //Console.WriteLine($"Total distance: {endNode.Distance}");
         }

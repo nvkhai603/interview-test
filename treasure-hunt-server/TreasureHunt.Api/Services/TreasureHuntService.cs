@@ -32,13 +32,18 @@ namespace TreasureHunt.Api.Services
             {
                 var node = new IslandNode($"START_NODE", 0, 0);
                 graph.AddNode(node);
+                __temp.Add(1, new HashSet<IslandNode>() { node });
             }
 
             for (int i = 0; i < input.N; i++)
             {
-                for (int j = 0; j < input.N; j++)
+                for (int j = 0; j < input.M; j++)
                 {
                     var islandLevel = input.MatrixMap.ElementAt(i).ElementAt(j);
+                    if (i == 0 && j == 0 && islandLevel == 1)
+                    {
+                        continue;
+                    }
                     var exist = __temp.TryGetValue(islandLevel, out var a);
                     if (!exist)
                     {
@@ -77,11 +82,14 @@ namespace TreasureHunt.Api.Services
 
             graph.Dijkstra("START_NODE");
             var (distance, path) = graph.GetShortestPath("END_NODE");
+            var pointPath = path.Select(x => x.GetPoint()).ToList();
             var logEntity = new TreasureHuntLog
             {
                 N = input.M,
                 M = input.M,
                 P = input.P,
+                Distance = distance,
+                Path = JsonConvert.SerializeObject(pointPath),
                 MatrixMap = JsonConvert.SerializeObject(input.MatrixMap),
                 CreatedDate = DateTime.Now
             };
@@ -90,8 +98,9 @@ namespace TreasureHunt.Api.Services
             await _dbContext.SaveChangesAsync();
             return new TreasureHuntOutput
             {
+                TreasureHuntLog = logEntity,
                 Distance = distance,
-                Path = path
+                Path = logEntity.Path
             };
         }
 
