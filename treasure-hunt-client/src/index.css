@@ -10,8 +10,20 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+body {
+  font-family: 'Be Vietnam Pro', sans-serif;
+}
+
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.MuiDataGrid-aggregationColumnHeader--alignCenter{
+  text-align: center;
+}
+
+.MuiDataGrid-cell--textCenter{
+  text-align: center;
 }
 

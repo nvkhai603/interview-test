@@ -35,7 +35,7 @@ namespace TreasureHunt.Api.Core
         }
 
         // Thuật toán Dijkstra
-        public void Dijkstra(string startNodeName)
+        public void Dijkstra(string startNodeName, CancellationToken cancellationToken)
         {
             if (!nodes.ContainsKey(startNodeName))
                 throw new ArgumentException("Start node not found in graph");
@@ -50,6 +50,8 @@ namespace TreasureHunt.Api.Core
 
             while (queue.Count > 0)
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 var current = queue.Dequeue();
 
                 if (current.Visited)
@@ -62,6 +64,8 @@ namespace TreasureHunt.Api.Core
 
                 foreach (var edge in currentEdges)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     var neighbor = edge.Destination;
                     var distance = current.Distance + edge.Weight;
 

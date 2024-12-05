@@ -16,16 +16,34 @@ namespace TreasureHunt.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] TreasureHuntInput input)
+        public async Task<IActionResult> Calculate([FromBody] TreasureHuntInput input, CancellationToken cancellationToken)
         {
-            var result = await _treasureHuntService.Calculate(input);
-            return Ok(result);
+            try
+            {
+                var result = await _treasureHuntService.CalculateAsync(input, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("log")]
-        public async Task<IActionResult> GetLog([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string search = "", [FromQuery] string sortBy = "date", [FromQuery] bool ascending = true)
+        public async Task<IActionResult> GetTreasureHuntLogs([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string search = "", [FromQuery] string sortBy = "createdDate", [FromQuery] bool ascending = false)
         {
-            var result = await _treasureHuntService.GetLogs(page, pageSize, search, sortBy, ascending);
+            var result = await _treasureHuntService.GetTreasureHuntLogsAsync(page, pageSize, search, sortBy, ascending);
+            return Ok(result);
+        }
+
+        [HttpGet("log/{id}")]
+        public async Task<IActionResult> GetTreasureHuntById(int id)
+        {
+            var result = await _treasureHuntService.GetTreasureHuntByIdAsync(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
             return Ok(result);
         }
     }

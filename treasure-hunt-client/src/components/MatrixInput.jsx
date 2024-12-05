@@ -1,14 +1,14 @@
 import { Button } from "@mui/material"
 import { TextField } from 'formik-mui';
 import { Formik, Form, Field } from 'formik';
-import {useNavigate} from "react-router"
+import { useNavigate } from "react-router"
 
-export const CreateTreasureMapStep1 = ({ onNext }) => {
+export const MatrixInput = ({ onNext, m, n, p }) => {
     let navigate = useNavigate();
     return <Formik initialValues={{
-        n: '',
-        m: '',
-        p: ''
+        n: n,
+        m: m,
+        p: p
     }}
         validate={(values) => {
             const errors = {};
@@ -23,6 +23,8 @@ export const CreateTreasureMapStep1 = ({ onNext }) => {
                 errors.m = 'Cần nhập số m';
             } else if (values.m > 500 || values.m < 1) {
                 errors.m = 'Số m phải từ 1 đến 500';
+            } else if(values.m == 1 && values.n == 1){
+                errors.m = 'Số m và n không thể cùng bằng 1'
             }
 
 
@@ -44,6 +46,17 @@ export const CreateTreasureMapStep1 = ({ onNext }) => {
     >
         {({ submitForm, isSubmitting }) => (
             <Form className="space-y-8 min-h-[400px] flex flex-col">
+                <div className="p-4 bg-blue-50 rounded">
+                    <div>
+                        Cấu trúc bản đồ là dữ liệu đầu vào để tạo ma trận bản đồ các hòn đảo, bao gồm:
+                        <ul className="list-disc list-inside">
+                            <li><strong>n</strong>: Số hàng của ma trận các hòn đảo</li>
+                            <li><strong>m</strong>: Số cột của ma trận các hòn đảo</li>
+                            <li><strong>p</strong>: Số loại rương có thể có trên ma trận các hòn đảo</li>
+                        </ul>
+                        <span className="text-orange-500 italic">Lưu ý: {"(1 <= n, m <= 500 , 1 <= p <= n*m)"}</span>
+                    </div>
+                </div>
                 <div className="w-full flex justify-center grow space-x-6">
                     <Field
                         component={TextField}
@@ -69,7 +82,7 @@ export const CreateTreasureMapStep1 = ({ onNext }) => {
                         size="small"
                     />
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between border-t p-4">
                     <Button
                         color="secondary"
                         onClick={() => {
