@@ -281,12 +281,18 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, oldMatrix = null, onNex
                 columns={columns}
                 lockRows={true}
             />
-            {renderErrorMessage}
+           
             {renderProcessingModal()}
-            <hr />
-            <div className="flex justify-between">
+            <div className="flex space-x-1">
+                <div className="flex items-center bg-blue-50 rounded-lg px-2">
                 <Button onClick={onBack} color="secondary">Quay lại</Button>
+                </div>
+                <div className="grow">
+                {renderErrorMessage}
+                </div>
+                <div className="flex items-center bg-blue-50 rounded-lg px-2" >
                 <LoadingButton loadingIndicator="..." loading={processing} onClick={resolveMatrix} disabled={errors.length > 0} variant="contained">Giải bản đồ</LoadingButton>
+                </div>
             </div>
         </div>
     )
