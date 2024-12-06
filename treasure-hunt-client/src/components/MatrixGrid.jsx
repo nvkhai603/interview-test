@@ -261,18 +261,19 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, oldMatrix = null, onNex
     }
     return (
         <div className="space-y-4">
-            <div className="p-1 bg-blue-50 rounded">
+            <div className="px-4 py-2 bg-orange-50 border-orange-500 border flex items-center space-x-4">
                 <div>
                     {/* Chi tiết bản đồ bạn cần nhập đủ thông số cho một ma trận có cấu trúc được tạo từ bước trước.
                     Mỗi ô trong ma trận biểu thị cho một hòn đảo, bạn cần điền các số nguyên đại diện cho số thứ tự rương của hòn đảo đó. <br /> */}
                     <span className="text-orange-500 italic">Lưu ý: Hãy nhập và theo dõi trạng thái ma trận hợp lệ và nhấn "Giải bản đồ" để xem kết quả</span>
                 </div>
+                <div>
+                    <LoadingButton loadingIndicator="Đang tạo..." className="w-[264px]" loading={generating} variant="contained" color="secondary" onClick={generateSampleMatrix}>Generate ngẫu nhiên</LoadingButton>
+                </div>
             </div>
-            <div>
-                <LoadingButton loadingIndicator="Đang tạo..." loading={generating} variant="contained" color="secondary" onClick={generateSampleMatrix}>Generate ngẫu nhiên</LoadingButton>
-            </div>
+
             <DataSheetGrid
-                style={{  "--dsg-border-color": "#a1a1aa" }}
+                style={{ "--dsg-border-color": "#a1a1aa" }}
                 value={matrix}
                 onChange={(e, operations) => {
                     setMatrix(e)
