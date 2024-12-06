@@ -176,7 +176,7 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, oldMatrix = null, onNex
 
     const renderErrorMessage = useMemo(() => {
         if (errors.length > 0) {
-            return <div className="p-4 bg-red-100 border border-red-500">
+            return <div className="p-2 bg-red-100 border border-red-500">
                 <div className="flex space-x-2 items-center mb-2">
                     <NewReleasesIcon className="text-red-500" />
                     <div className="text-red-500">Ma trận của bạn chưa hợp lệ</div>
@@ -193,7 +193,7 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, oldMatrix = null, onNex
             </div>
         }
 
-        return <div className="p-4 bg-green-100 border border-green-500">
+        return <div className="p-2 bg-green-100 border border-green-500">
             <div className="flex space-x-2 items-center mb-2">
                 <CheckCircleIcon className="text-green-500" />
                 <div className="text-green-500">Ma trận của bạn hợp lệ</div>
@@ -261,10 +261,10 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, oldMatrix = null, onNex
     }
     return (
         <div className="space-y-4">
-            <div className="p-4 bg-blue-50 rounded">
+            <div className="p-1 bg-blue-50 rounded">
                 <div>
-                    Chi tiết bản đồ bạn cần nhập đủ thông số cho một ma trận có cấu trúc được tạo từ bước trước.
-                    Mỗi ô trong ma trận biểu thị cho một hòn đảo, bạn cần điền các số nguyên đại diện cho số thứ tự rương của hòn đảo đó. <br />
+                    {/* Chi tiết bản đồ bạn cần nhập đủ thông số cho một ma trận có cấu trúc được tạo từ bước trước.
+                    Mỗi ô trong ma trận biểu thị cho một hòn đảo, bạn cần điền các số nguyên đại diện cho số thứ tự rương của hòn đảo đó. <br /> */}
                     <span className="text-orange-500 italic">Lưu ý: Hãy nhập và theo dõi trạng thái ma trận hợp lệ và nhấn "Giải bản đồ" để xem kết quả</span>
                 </div>
             </div>
@@ -272,6 +272,7 @@ export const MatrixGrid = ({ column = 3, row = 3, p = 9, oldMatrix = null, onNex
                 <LoadingButton loadingIndicator="Đang tạo..." loading={generating} variant="contained" color="secondary" onClick={generateSampleMatrix}>Generate ngẫu nhiên</LoadingButton>
             </div>
             <DataSheetGrid
+                style={{  "--dsg-border-color": "#a1a1aa" }}
                 value={matrix}
                 onChange={(e, operations) => {
                     setMatrix(e)
